@@ -1,0 +1,18 @@
+Package: pkgdemo
+Title: Basic R Package Demo
+Version: 0.0.0.1234
+Authors@R: 
+    person(given = "Seth",
+           family = "Rhoades",
+           role = c("aut", "cre"),
+           email = "srhoades10@example.com",
+           comment = c())
+Description: This package doesn't do a whole lot! Adding numbers, making tables and a plot
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+    dplyr
