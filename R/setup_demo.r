@@ -24,7 +24,7 @@ createRandomTbl <- function(nRow, nCol, addSample=TRUE, ...){
     }
     df <- data.frame(matrix(rnorm(nRow*nCol), nrow=nRow, ncol=nCol))
     if(addSample==TRUE){
-        df$Sample <- 1:nRow
+        df$Sample <- as.factor(1:nRow)
     }
     return(df)
 }
@@ -39,7 +39,7 @@ createRandomTbl <- function(nRow, nCol, addSample=TRUE, ...){
 #' @return PCA scores
 #' @export 
 fitPCA <- function(data, nonDatCols=c('Sample'), returnFit=FALSE){
-    dataOnly <- data %>% select(-nonDatCols)
+    dataOnly <- dplyr::select(data, -nonDatCols)
     dataOnly[is.na(dataOnly)] <- 0
     dataOnly <- dataOnly[ , apply(dataOnly, 2, var) != 0]
     pcaFit <- prcomp(dataOnly, center=TRUE, scale=TRUE)
@@ -85,26 +85,28 @@ plotPCA <- function(data, confidence=95, nonDatCols=c('Sample'), ggTitle=NULL, .
     pcaEllipse <- calcPCAEllipse(pcaProjections=pcaProjections, confidence=confidence)
 
     #Re-run part of fitPCA just to get the variance explained
-    dataOnly <- data %>% select(-nonDatCols)
+    dataOnly <- dplyr::select(data, -nonDatCols)
     dataOnly[is.na(dataOnly)] <- 0
     dataOnly <- dataOnly[ , apply(dataOnly, 2, var) != 0]
     pcaFit <- prcomp(dataOnly, center = TRUE, scale = TRUE)
     varExp1 <- round(summary(pcaFit)$importance[2,1] * 100, 2) 
     varExp2 <- round(summary(pcaFit)$importance[2,2] * 100, 2)
 
-    pcaPlot <- ggplot(pcaProjections, aes(x = PC1, y = PC2, colour = Sample))+
-        geom_point(size = 5)+
-        geom_path(data = pcaEllipse, aes(x = xvar, y = yvar), color = 'black')+
-        theme_bw()+
-        ylab(sprintf('PC2 (%s%s variance explained)', varExp2, '%')) + 
-        xlab(sprintf('PC1 (%s%s variance explained)', varExp1, '%')) + 
-        ggtitle(ggTitle)+
-        geom_abline(aes(intercept = 0, slope = 0), color = 'black', size = 0.25)+
-        geom_vline(aes(xintercept = 0), color = 'black', size = 0.25)+
-        theme(axis.text = element_blank(), axis.title = element_text(size = 11, face = "bold"), 
-                legend.title = element_text(size = 11), legend.text = element_text(size = 10), 
-                title = element_text(size = 12, face = "bold"),
-                plot.title = element_text(hjust = 0.5))
+    pcaPlot <- ggplot2::ggplot(pcaProjections, ggplot2::aes(x = PC1, y = PC2, colour = Sample))+
+        ggplot2::geom_point(size = 5)+
+        ggplot2::geom_path(data = pcaEllipse, ggplot2::aes(x = xvar, y = yvar), color = 'black')+
+        ggplot2::theme_bw()+
+        ggplot2::ylab(sprintf('PC2 (%s%s variance explained)', varExp2, '%')) + 
+        ggplot2::xlab(sprintf('PC1 (%s%s variance explained)', varExp1, '%')) + 
+        ggplot2::ggtitle(ggTitle)+
+        ggplot2::geom_abline(ggplot2::aes(intercept = 0, slope = 0), color = 'black', size = 0.25)+
+        ggplot2::geom_vline(ggplot2::aes(xintercept = 0), color = 'black', size = 0.25)+
+        ggplot2::theme(axis.text = ggplot2::element_blank(), 
+                        axis.title = ggplot2::element_text(size = 11, face = "bold"), 
+                        legend.title = ggplot2::element_text(size = 11), 
+                        legend.text = ggplot2::element_text(size = 10), 
+                        title = ggplot2::element_text(size = 12, face = "bold"),
+                        plot.title = ggplot2::element_text(hjust = 0.5))
 
     return(pcaPlot)
 }
