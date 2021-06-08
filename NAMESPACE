@@ -2,5 +2,6 @@
 
 export(addNums)
 export(calcPCAEllipse)
+export(createRandomTbl)
 export(fitPCA)
 export(plotPCA)

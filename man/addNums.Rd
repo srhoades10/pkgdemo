@@ -4,28 +4,16 @@
 \alias{addNums}
 \title{Add 2 numbers!}
 \usage{
-addNums(nRow, nCol, addSample = TRUE, ...)
-
-addNums(nRow, nCol, addSample = TRUE, ...)
+addNums(x, y, ...)
 }
 \arguments{
 \item{x:}{Float/Int}
 
 \item{y:}{Float/Int}
-
-\item{nRow:}{Int}
-
-\item{nCol:}{Int}
-
-\item{addSample:}{Bool - Add a "Sample" column, numbered 1:nRow}
 }
 \value{
 Summed numbers
-
-Data.Frame
 }
 \description{
 Add 2 numbers!
-
-Create random table!
 }
