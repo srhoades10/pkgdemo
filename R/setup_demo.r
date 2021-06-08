@@ -18,7 +18,7 @@ addNums <- function(x, y, ...){
 #' @param addSample: Bool - Add a "Sample" column, numbered 1:nRow
 #' @return Data.Frame
 #' @export 
-addNums <- function(nRow, nCol, addSample=TRUE, ...){
+createRandomTbl <- function(nRow, nCol, addSample=TRUE, ...){
     if(nRow <= 0 | nCol <= 0){
         stop('Number of rows and columns must g.t.e 1')
     }
